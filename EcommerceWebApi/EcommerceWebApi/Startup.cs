@@ -1,5 +1,6 @@
 using Core.Interfaces.Repositories;
 using Infrastructure;
+using Infrastructure.Extensions;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,12 +31,8 @@ namespace EcommerceWebApi
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			
-			services.AddDbContext<DatabaseContext>(options => 
-			{
-				options.UseSqlServer(Configuration.GetConnectionString("Default"));
-			});
-			services.AddScoped<IProductRepository, ProductRepository>();
+
+			services.AddInfrastructure(Configuration);
 			services.AddControllers();
 			services.AddSwaggerGen(c =>
 			{
