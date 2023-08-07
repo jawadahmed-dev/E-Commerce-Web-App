@@ -32,16 +32,16 @@ namespace Infrastructure.Extensions
 			var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
 			await context.Database.MigrateAsync();
 
-			SeedData(context);
+			await SeedData(context);
 
 		}
 
-		public async static void SeedData(DatabaseContext context)
+		public async static Task SeedData(DatabaseContext context)
 		{
 			var productTypeSeeds = File.ReadAllText("../Infrastructure/Seeds/ProductTypeSeed.json");
 			var productTypeList = JsonSerializer.Deserialize<List<ProductType>>(productTypeSeeds);
 
-			if (!await context.ProductTypes.AnyAsync())
+			if (! context.ProductTypes.Any())
 			{
 				foreach (var productType in productTypeList)
 				{
@@ -54,7 +54,7 @@ namespace Infrastructure.Extensions
 			var productBrandSeeds = File.ReadAllText("../Infrastructure/Seeds/ProductBrandSeed.json");
 			var productBrandList = JsonSerializer.Deserialize<List<ProductBrand>>(productBrandSeeds);
 
-			if (!await context.ProductBrands.AnyAsync())
+			if (!context.ProductBrands.Any())
 			{
 				foreach (var productBrand in productBrandList)
 				{
@@ -67,7 +67,7 @@ namespace Infrastructure.Extensions
 			var productSeeds = File.ReadAllText("../Infrastructure/Seeds/ProductSeed.json");
 			var productList = JsonSerializer.Deserialize<List<Product>>(productSeeds);
 
-			if (!await context.Products.AnyAsync())
+			if (! context.Products.Any())
 			{
 				foreach (var product in productList)
 				{

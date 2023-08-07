@@ -10,12 +10,12 @@ namespace EcommerceWebApi.Controllers
 {
 	[ApiController]
 	[Route("api/[controller]")]
-	public class ProductController : ControllerBase
+	public class ProductsController : ControllerBase
 	{
 		private readonly DatabaseContext _databaseContext;
 		private readonly IProductRepository _productRepository;
 
-		public ProductController(IProductRepository productRepository)
+		public ProductsController(IProductRepository productRepository)
 		{
 			_productRepository = productRepository;
 		}
@@ -30,6 +30,18 @@ namespace EcommerceWebApi.Controllers
 		public async Task<IActionResult> GetProductsAsync()
 		{
 			return Ok(await _productRepository.GetProductsAsync());
+		}
+
+		[HttpGet("Types")]
+		public async Task<IActionResult> GetProductTypesAsync()
+		{
+			return Ok(await _productRepository.GetProductTypesAsync());
+		}
+
+		[HttpGet("Brands")]
+		public async Task<IActionResult> GetProductBrandsAsync()
+		{
+			return Ok(await _productRepository.GetProductBrandsAsync());
 		}
 	}
 }
