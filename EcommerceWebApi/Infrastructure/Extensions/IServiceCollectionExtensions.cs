@@ -25,7 +25,7 @@ namespace Infrastructure.Extensions
 				options.UseSqlServer(configuration.GetConnectionString("Default"));
 			});
 
-			services.AddScoped<IProductRepository, ProductRepository>();
+			services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
 
 			var scope = services.BuildServiceProvider().CreateScope();
 

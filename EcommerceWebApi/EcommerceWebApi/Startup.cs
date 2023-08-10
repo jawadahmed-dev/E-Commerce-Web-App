@@ -15,6 +15,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace EcommerceWebApi
@@ -32,6 +33,7 @@ namespace EcommerceWebApi
 		public void ConfigureServices(IServiceCollection services)
 		{
 
+			services.AddAutoMapper(Assembly.GetExecutingAssembly());
 			services.AddInfrastructure(Configuration);
 			services.AddControllers();
 			services.AddSwaggerGen(c =>
