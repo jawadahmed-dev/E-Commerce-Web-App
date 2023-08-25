@@ -16,7 +16,7 @@ namespace Infrastructure.Extensions
 {
 	public static class IServiceCollectionExtensions
 	{
-		public async static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration) 
+		public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration) 
 		{
 			
 			
@@ -30,15 +30,16 @@ namespace Infrastructure.Extensions
 			var scope = services.BuildServiceProvider().CreateScope();
 
 			var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
-			await context.Database.MigrateAsync();
+			context.Database.Migrate();
 
-			await SeedData(context);
+			SeedData(context);
 
+			return services;
 		}
 
-		public async static Task SeedData(DatabaseContext context)
+		public static void SeedData(DatabaseContext context)
 		{
-			var productTypeSeeds = File.ReadAllText("../Infrastructure/Seeds/ProductTypeSeed.json");
+			var productTypeSeeds = File.ReadAllText("../Infrastructure/Seeds/types.json");
 			var productTypeList = JsonSerializer.Deserialize<List<ProductType>>(productTypeSeeds);
 
 			if (! context.ProductTypes.Any())
@@ -48,10 +49,10 @@ namespace Infrastructure.Extensions
 					context.ProductTypes.Add(productType);
 				}
 
-				await context.SaveChangesAsync();
+				//context.SaveChanges();
 			}
 
-			var productBrandSeeds = File.ReadAllText("../Infrastructure/Seeds/ProductBrandSeed.json");
+			var productBrandSeeds = File.ReadAllText("../Infrastructure/Seeds/brands.json");
 			var productBrandList = JsonSerializer.Deserialize<List<ProductBrand>>(productBrandSeeds);
 
 			if (!context.ProductBrands.Any())
@@ -61,20 +62,20 @@ namespace Infrastructure.Extensions
 					context.ProductBrands.Add(productBrand);
 				}
 
-				await context.SaveChangesAsync();
+				//context.SaveChanges();
 			}
 
-			var productSeeds = File.ReadAllText("../Infrastructure/Seeds/ProductSeed.json");
+			var productSeeds = File.ReadAllText("../Infrastructure/Seeds/products.json");
 			var productList = JsonSerializer.Deserialize<List<Product>>(productSeeds);
 
-			if (! context.Products.Any())
+			if (!context.Products.Any())
 			{
 				foreach (var product in productList)
 				{
 					context.Products.Add(product);
 				}
 
-				await context.SaveChangesAsync();
+				context.SaveChanges();
 			}
 		}
 	}

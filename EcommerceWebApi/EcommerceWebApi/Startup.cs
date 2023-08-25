@@ -1,6 +1,9 @@
 using Core.Interfaces.Repositories;
+using EcommerceWebApi.Middlewares;
+using EcommerceWebApi.Response;
 using Infrastructure;
 using Infrastructure.Extensions;
+using EcommerceWebApi.Extensions;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,28 +33,26 @@ namespace EcommerceWebApi
 		public IConfiguration Configuration { get; }
 
 		// This method gets called by the runtime. Use this method to add services to the container.
-		public void ConfigureServices(IServiceCollection services)
+		public async void ConfigureServices(IServiceCollection services)
 		{
+			
+			services.AddInfrastructure(Configuration).AddApiServices();
 
-			services.AddAutoMapper(Assembly.GetExecutingAssembly());
-			services.AddInfrastructure(Configuration);
-			services.AddControllers();
-			services.AddSwaggerGen(c =>
-			{
-				c.SwaggerDoc("v1", new OpenApiInfo { Title = "EcommerceWebApi", Version = "v1" });
-			});
+
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
+
+			app.UseMiddleware<ExceptionMiddleware>();
+
 			if (env.IsDevelopment())
 			{
-				app.UseDeveloperExceptionPage();
-				app.UseSwagger();
-				app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EcommerceWebApi v1"));
+				app.AddSwaggerUI();
 			}
 
+			app.UseStatusCodePagesWithReExecute("/errors/{0}");
 			app.UseHttpsRedirection();
 
 			app.UseRouting();

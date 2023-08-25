@@ -3,6 +3,7 @@ using Core.Entites;
 using Core.Interfaces.Repositories;
 using Core.Specifications;
 using EcommerceWebApi.DTOs;
+using EcommerceWebApi.Response;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,9 +13,7 @@ using System.Threading.Tasks;
 
 namespace EcommerceWebApi.Controllers
 {
-	[ApiController]
-	[Route("api/[controller]")]
-	public class ProductsController : ControllerBase
+	public class ProductsController : BaseApiController
 	{
 		private readonly DatabaseContext _databaseContext;
 		private readonly IGenericRepository<Product> _productRepository;
@@ -33,15 +32,23 @@ namespace EcommerceWebApi.Controllers
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetProductByIdAsync(int id) 
 		{
-			return Ok(_mapper.Map<List<ProductDTO>>(await _productRepository.GetByIdAsync(id)));
+			var spec = new GetProductsWithTypeAndBrandSpecification(id);
+
+			return Ok(_mapper.Map<ProductDTO>(await _productRepository.GetEntityWithSpec(spec)));
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> GetProductsAsync()
+		public async Task<IActionResult> GetProductsAsync([FromQuery] ProductSpecParams productParams)
 		{
-			var spec = new GetProductsWithTypeAndBrandSpecification();
+			var spec = new GetProductsWithTypeAndBrandSpecification(productParams);
 
-			return Ok(_mapper.Map<List<ProductDTO>>(await _productRepository.ListAsync(spec)));
+			var products = _mapper.Map<List<ProductDTO>>(await _productRepository.ListAsync(spec));
+
+			var countSpec = new GetFilteredProductsCountSpecification(productParams);
+
+			var count = await _productRepository.CountAsync(countSpec);
+
+			return Ok(new Pagination<ProductDTO>(productParams.PageIndex, productParams.PageSize, count, products));
 		}
 
 		[HttpGet("Types")]
