@@ -18,6 +18,9 @@ namespace EcommerceWebApi.MappingProfiles
 				.ForMember(x => x.ProductBrandName, o => o.MapFrom(x => x.ProductBrand.Name))
 				.ForMember(x => x.ProductTypeName, o => o.MapFrom(x => x.ProductType.Name))
 				.ForMember(x => x.PictureUrl, o => o.MapFrom<ProductUrlRessolver>());
+
+			CreateMap<ProductBrand, ProductBrandDTO>().ReverseMap();
+			CreateMap<ProductType, ProductTypeDTO>().ReverseMap();
 		}
 	}
 }

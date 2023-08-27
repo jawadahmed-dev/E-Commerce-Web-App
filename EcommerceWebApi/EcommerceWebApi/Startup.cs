@@ -35,7 +35,16 @@ namespace EcommerceWebApi
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public async void ConfigureServices(IServiceCollection services)
 		{
-			
+			services.AddCors(options =>
+			{
+				options.AddPolicy("AllowAnyOrigin",
+					builder =>
+					{
+						builder.AllowAnyOrigin()
+							   .AllowAnyHeader()
+							   .AllowAnyMethod();
+					});
+			});
 			services.AddInfrastructure(Configuration).AddApiServices();
 
 
@@ -44,6 +53,8 @@ namespace EcommerceWebApi
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
+
+			app.UseCors("AllowAnyOrigin");
 
 			app.UseMiddleware<ExceptionMiddleware>();
 

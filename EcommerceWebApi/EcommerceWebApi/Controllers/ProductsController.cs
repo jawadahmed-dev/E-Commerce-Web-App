@@ -54,13 +54,13 @@ namespace EcommerceWebApi.Controllers
 		[HttpGet("Types")]
 		public async Task<IActionResult> GetProductTypesAsync()
 		{
-			return Ok(await _productRepository.ListAllAsync());
+			return Ok(_mapper.Map<IEnumerable<ProductTypeDTO>>(await _productTypeRepository.ListAllAsync()));
 		}
 
 		[HttpGet("Brands")]
 		public async Task<IActionResult> GetProductBrandsAsync()
 		{
-			return Ok(await _productRepository.ListAllAsync());
+			return Ok(_mapper.Map<IEnumerable<ProductBrandDTO>>(await _productBrandRepository.ListAllAsync()));
 		}
 	}
 }
