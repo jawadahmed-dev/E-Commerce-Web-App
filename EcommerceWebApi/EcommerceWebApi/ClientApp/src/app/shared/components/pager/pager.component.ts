@@ -14,6 +14,7 @@ export class PagerComponent {
 
   onPageChange(pageIndex : any)
   {
+
     this.pageChange.emit(pageIndex);
   }
 }

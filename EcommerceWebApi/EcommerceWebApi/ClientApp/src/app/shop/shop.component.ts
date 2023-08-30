@@ -74,26 +74,31 @@ export class ShopComponent implements OnInit {
 
   onBrandSelected(brandId : number)
   {
+    this.productParams.pageIndex =1;
     this.productParams.brandId = brandId;
     this.getProducts();
   }
   onTypeSelected(typeId : number)
   {
+    this.productParams.pageIndex =1;
     this.productParams.typeId = typeId;
     this.getProducts();
   }
   onSortOptionSelected(sortOption : string)
   {
+    this.productParams.pageIndex =1;
     this.productParams.sort = sortOption;
     this.getProducts();
   }
   onPageChange(pageIndex : any)
   {
+    if(this.productParams.pageIndex == pageIndex) return;
     this.productParams.pageIndex = pageIndex;
     this.getProducts();
   }
   onSearch()
   {
+    this.productParams.pageIndex =1;
     this.getProducts();
   }
   onReset()
