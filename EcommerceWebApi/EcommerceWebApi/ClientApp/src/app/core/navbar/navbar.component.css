@@ -11,3 +11,14 @@
   right:32px;
   text-align: center;
 }
+
+.active
+{
+  color: orange;
+  text-decoration: none;
+}
+
+.logo
+{
+  cursor:pointer;
+}
