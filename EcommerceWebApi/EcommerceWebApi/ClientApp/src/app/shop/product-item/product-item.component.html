@@ -2,13 +2,13 @@
   <img src="{{product.pictureUrl}}" alt="{{product.name}}" class="img-fluid">
 
   <div class="card-body h-100">
-    <a href="#" class="text-decoration-none">
+    <a routerLink="/shop/{{product.id}}" class="text-decoration-none">
       <h6 class="text-uppercase">{{product.name}}</h6>
     </a>
     <span class=""><strong>{{ product.price | currency}}</strong></span>
     <div class="d-flex justify-content-between align-items-center mt-2">
       <div class="btn-group">
-        <button type="button" class="btn btn-sm btn-outline-primary me-1">View</button>
+        <button type="button" routerLink="/shop/{{product.id}}" class="btn btn-sm btn-outline-primary me-1">View</button>
         <button type="button" class="btn btn-sm btn-outline-success ms-1">Edit</button>
       </div>
     </div>
