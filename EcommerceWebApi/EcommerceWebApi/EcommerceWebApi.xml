@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EcommerceWebApi</name>
+    </assembly>
+    <members>
+        <member name="M:EcommerceWebApi.Controllers.ProductsController.GetProductByIdAsync(System.Int32)">
+            <summary>Get individual product by its id.</summary>
+        </member>
+        <member name="M:EcommerceWebApi.Controllers.ProductsController.GetProductsAsync(Core.Specifications.ProductSpecParams)">
+            <summary>Get list of products in paginated form.</summary>
+        </member>
+        <member name="M:EcommerceWebApi.Controllers.ProductsController.GetProductTypesAsync">
+            <summary>Get list of product types.</summary>
+        </member>
+        <member name="M:EcommerceWebApi.Controllers.ProductsController.GetProductBrandsAsync">
+            <summary>Get list of product brands.</summary>
+        </member>
+    </members>
+</doc>

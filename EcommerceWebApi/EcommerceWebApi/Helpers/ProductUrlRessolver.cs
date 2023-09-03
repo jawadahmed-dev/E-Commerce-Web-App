@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Core.Entites;
-using EcommerceWebApi.DTOs;
+using EcommerceWebApi.Models;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EcommerceWebApi.Helpers
 {
-	public class ProductUrlRessolver : IValueResolver<Product, ProductDTO, string>
+	public class ProductUrlRessolver : IValueResolver<Product, ProductResponseModel, string>
 	{
 		private readonly IConfiguration _configuration;
 
@@ -17,7 +17,7 @@ namespace EcommerceWebApi.Helpers
 		{
 			_configuration = configuration;
 		}
-		public string Resolve(Product source, ProductDTO destination, string destMember, ResolutionContext context)
+		public string Resolve(Product source, ProductResponseModel destination, string destMember, ResolutionContext context)
 		{
 			return _configuration["ApiUrl"] + source.PictureUrl;
 		}

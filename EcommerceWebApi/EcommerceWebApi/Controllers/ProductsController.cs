@@ -2,10 +2,13 @@
 using Core.Entites;
 using Core.Interfaces.Repositories;
 using Core.Specifications;
-using EcommerceWebApi.DTOs;
+using EcommerceWebApi.Exceptions;
+using EcommerceWebApi.Models;
 using EcommerceWebApi.Response;
 using Infrastructure;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,38 +32,50 @@ namespace EcommerceWebApi.Controllers
 			_productRepository = productRepository;
 		}
 
+		/// <summary>Get individual product by its id.</summary>
+
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetProductByIdAsync(int id) 
 		{
 			var spec = new GetProductsWithTypeAndBrandSpecification(id);
+			var data = await _productRepository.GetEntityWithSpec(spec);
 
-			return Ok(_mapper.Map<ProductDTO>(await _productRepository.GetEntityWithSpec(spec)));
+			if (data == null) throw new NotFoundException();
+
+			return Ok(Response<ProductResponseModel>.Success(200, _mapper.Map<ProductResponseModel>(data)));
 		}
 
+
+		/// <summary>Get list of products in paginated form.</summary>
+		
 		[HttpGet]
 		public async Task<IActionResult> GetProductsAsync([FromQuery] ProductSpecParams productParams)
 		{
 			var spec = new GetProductsWithTypeAndBrandSpecification(productParams);
 
-			var products = _mapper.Map<List<ProductDTO>>(await _productRepository.ListAsync(spec));
+			var products = _mapper.Map<List<ProductResponseModel>>(await _productRepository.ListAsync(spec));
 
 			var countSpec = new GetFilteredProductsCountSpecification(productParams);
 
 			var count = await _productRepository.CountAsync(countSpec);
 
-			return Ok(new Pagination<ProductDTO>(productParams.PageIndex, productParams.PageSize, count, products));
+			return Ok(Response<Pagination<ProductResponseModel>>.Success(200, new Pagination<ProductResponseModel>(productParams.PageIndex, productParams.PageSize, count, products)));
 		}
 
+		/// <summary>Get list of product types.</summary>
+		
 		[HttpGet("Types")]
 		public async Task<IActionResult> GetProductTypesAsync()
 		{
-			return Ok(_mapper.Map<IEnumerable<ProductTypeDTO>>(await _productTypeRepository.ListAllAsync()));
+			return Ok(Response<IEnumerable<ProductTypeResponseModel>>.Success(200, _mapper.Map<IEnumerable<ProductTypeResponseModel>>(await _productTypeRepository.ListAllAsync())));
 		}
 
+		/// <summary>Get list of product brands.</summary>
+		
 		[HttpGet("Brands")]
 		public async Task<IActionResult> GetProductBrandsAsync()
 		{
-			return Ok(_mapper.Map<IEnumerable<ProductBrandDTO>>(await _productBrandRepository.ListAllAsync()));
+			return Ok(Response<IEnumerable<ProductBrandResponseModel>>.Success(200, _mapper.Map<IEnumerable<ProductBrandResponseModel>>(await _productBrandRepository.ListAllAsync())));
 		}
 	}
 }

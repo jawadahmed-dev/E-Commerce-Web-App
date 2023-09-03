@@ -1,4 +1,5 @@
-﻿using Infrastructure;
+﻿using EcommerceWebApi.Models;
+using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace EcommerceWebApi.Controllers
             var thing = db.Products.Find(42);
             if (thing == null)
             {
-                return NotFound(new ApiResponse(404));
+                return NotFound(Response<string>.Failure(404, null));
             }
             return Ok(thing);
         }
@@ -38,7 +39,7 @@ namespace EcommerceWebApi.Controllers
         [HttpGet("badrequest")]
         public ActionResult GetBadRequest()
         {
-            return BadRequest(new ApiResponse(400));
+            return BadRequest(Response<string>.Failure(400, null));
         }
 
         [HttpGet("badrequest/{id}")]

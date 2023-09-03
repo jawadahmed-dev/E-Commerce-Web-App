@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using EcommerceWebApi.Exceptions;
+using EcommerceWebApi.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -31,12 +33,25 @@ namespace EcommerceWebApi.Middlewares
 			}
 			catch (Exception ex) 
 			{
+				_logger.LogError(ex.Message);
+
+				var code = StatusCodes.Status500InternalServerError;
+				var errors = new List<string> { ex.Message };
+
+				code = ex switch
+				{
+					NotFoundException => StatusCodes.Status404NotFound,
+					BadRequestException => StatusCodes.Status400BadRequest,
+					UnprocessableRequestException => StatusCodes.Status422UnprocessableEntity,
+					_ => code
+				};
+
+				var result = JsonSerializer.Serialize(Response<string>.Failure(code, errors));
+
 				context.Response.ContentType = "application/json";
-				context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-				var response = _env.IsDevelopment()
-					? new ApiException((int)HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace)
-					: new ApiException((int)HttpStatusCode.InternalServerError, ex.Message);
-				await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+				context.Response.StatusCode = code;
+
+				await context.Response.WriteAsync(result);
 			}
 		}
 	}

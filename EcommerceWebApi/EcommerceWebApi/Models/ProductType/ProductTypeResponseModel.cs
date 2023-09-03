@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EcommerceWebApi.DTOs
+namespace EcommerceWebApi.Models
 {
-	public class ProductBrandDTO
+	public class ProductTypeResponseModel
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }
