@@ -1,0 +1,26 @@
+﻿using AutoMapper;
+using Core.Entites;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Api.Helpers;
+using Api.Models;
+
+namespace Api.MappingProfiles
+{
+	public class ProductProfile : Profile
+	{
+		public ProductProfile()
+		{
+			CreateMap<Product, ProductResponseModel>()
+				.ForMember(x => x.ProductBrandName, o => o.MapFrom(x => x.ProductBrand.Name))
+				.ForMember(x => x.ProductTypeName, o => o.MapFrom(x => x.ProductType.Name))
+				.ForMember(x => x.PictureUrl, o => o.MapFrom<ProductUrlRessolver>());
+
+			CreateMap<ProductBrand, ProductBrandResponseModel>().ReverseMap();
+			CreateMap<ProductType, ProductTypeResponseModel>().ReverseMap();
+		}
+	}
+}
