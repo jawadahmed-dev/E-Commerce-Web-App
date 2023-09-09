@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IProduct } from 'src/app/shared/models/product';
 import { ShopService } from '../shop.service';
 import { ActivatedRoute } from '@angular/router';
+import { BreadcrumbService } from 'xng-breadcrumb';
 
 @Component({
   selector: 'app-product-details',
@@ -11,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ProductDetailsComponent {
   product : IProduct;
 
-  constructor(private shopService:ShopService, private activateRoute: ActivatedRoute)
+  constructor(private shopService:ShopService, private activateRoute: ActivatedRoute, private breadcrumbService: BreadcrumbService)
   {
     this.loadProduct();
 
@@ -21,6 +22,7 @@ export class ProductDetailsComponent {
       .subscribe(resp =>
         {
           this.product = resp.result;
+          this.breadcrumbService.set('@product-title', this.product.name);
         },
         error =>
         {
