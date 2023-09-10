@@ -58,7 +58,6 @@ namespace Api.UnitTests.controllers
             _mapperMock.Setup(mapper => mapper.Map<ProductResponseModel>(It.IsAny<Product>()))
                 .Returns(productResponseModel); // Provide the expected mapping result
 
-
             // Act
             var result = await _sut.GetProductByIdAsync(productId);
 

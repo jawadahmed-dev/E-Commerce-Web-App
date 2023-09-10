@@ -1,14 +1,14 @@
-<div class="container mt-3">
+<div class="container mt-5">
   <div class="row">
     <div class="col-3">
-      <h5 class="ms-2 mb-2 filter-title">Sort</h5>
-      <select class="form-select mb-3"
+      <h5 class="ms-2 mt-3 filter-title">Sort</h5>
+      <select class="form-select mb-3 mt-3"
       (change)="onSortOptionSelected($event.target.value)"
       >
       <option *ngFor="let sortOption of sortOptions" [value]="sortOption.value">{{sortOption.name}}</option>
       </select>
-      <h5 class="ms-2 mb-2 filter-title">Brands</h5>
-      <ul class="list-group mb-3">
+      <h5 class="ms-2 filter-title">Brands</h5>
+      <ul class="list-group mt-3 mb-3">
         <li class="list-group-item"
         *ngFor="let brand of productBrands"
         [class.active] = "brand.id === productParams.brandId"
@@ -17,8 +17,8 @@
           {{brand.name}}
         </li>
       </ul>
-      <h5 class="ms-2 mb-2 filter-title">Types</h5>
-      <ul class="list-group mb-3">
+      <h5 class="ms-2 filter-title">Types</h5>
+      <ul class="list-group mt-3">
         <li class="list-group-item"
         *ngFor="let type of productTypes"
         [class.active] = "type.id === productParams.typeId"

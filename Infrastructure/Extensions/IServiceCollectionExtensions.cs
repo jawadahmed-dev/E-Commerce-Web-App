@@ -4,6 +4,7 @@ using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,14 +19,19 @@ namespace Infrastructure.Extensions
 	{
 		public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration) 
 		{
-			
-			
+
+			services.AddSingleton<IConnectionMultiplexer>(o => 
+			{
+				var config = ConfigurationOptions.Parse(configuration.GetConnectionString("Redis"),true);
+				return ConnectionMultiplexer.Connect(config);
+			});
 			services.AddDbContext<DatabaseContext>(options =>
 			{
 				options.UseSqlServer(configuration.GetConnectionString("Default"));
 			});
 
 			services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
+			services.AddScoped<IBasketRepository,BasketRepository>();
 
 			var scope = services.BuildServiceProvider().CreateScope();
 
@@ -49,7 +55,6 @@ namespace Infrastructure.Extensions
 					context.ProductTypes.Add(productType);
 				}
 
-				//context.SaveChanges();
 			}
 
 			var productBrandSeeds = File.ReadAllText("../Infrastructure/Seeds/brands.json");
@@ -62,7 +67,6 @@ namespace Infrastructure.Extensions
 					context.ProductBrands.Add(productBrand);
 				}
 
-				//context.SaveChanges();
 			}
 
 			var productSeeds = File.ReadAllText("../Infrastructure/Seeds/products.json");

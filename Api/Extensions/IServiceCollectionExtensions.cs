@@ -10,6 +10,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using FluentValidation.AspNetCore;
+using Core.Models.Validators;
+using FluentValidation;
 
 namespace Api.Extensions
 {
@@ -19,6 +22,8 @@ namespace Api.Extensions
 		{
 			services.AddAutoMapper(Assembly.GetExecutingAssembly());
 			services.AddControllers();
+			services.AddValidatorsFromAssemblyContaining<IValidatorMarker>();
+			services.AddFluentValidationAutoValidation();
 			services.Configure<ApiBehaviorOptions>(options =>
 			{
 				options.InvalidModelStateResponseFactory = action =>

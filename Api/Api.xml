@@ -4,6 +4,19 @@
         <name>Api</name>
     </assembly>
     <members>
+        <member name="M:Api.Controllers.BasketController.UpdateBasketAsync(Core.Entites.CustomerBasket)">
+            <summary>
+            Use this endpoint for both updation and addition of basket. 
+            </summary>
+            <returns>Returns the updated or newly added basket.</returns>
+        </member>
+        <member name="M:Api.Controllers.BasketController.DeleteBasketAsync(System.String)">
+            <summary>
+             Deletes the basket from the redis database.
+            </summary>
+            <param name="id">It requires basket id.</param>
+            <returns>It returns a bool for success/failure response.</returns>
+        </member>
         <member name="M:Api.Controllers.ProductsController.GetProductByIdAsync(System.Int32)">
             <summary>Get individual product by its id.</summary>
         </member>
