@@ -38,6 +38,7 @@ namespace Infrastructure.Repositories
 		{
 			return await ApplySpecifications(spec).AsSplitQuery().ToListAsync();
 		}
+
 		public async Task<int> CountAsync(ISpecification<T> spec)
 		{
 			return await ApplySpecifications(spec).CountAsync();

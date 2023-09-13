@@ -1,9 +1,51 @@
-.btn-group
-{
-  width: 100%;
-}
-
 .btn
 {
-  width:50%;
+  width:30%;
 }
+
+.image-container
+{
+  position: relative;
+  cursor: pointer;
+}
+
+.image-container :hover
+{
+  opacity: 1;
+}
+
+.image-container :hover button
+{
+  opacity: 1;
+  transform: none;
+}
+
+.hover-overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
+  background-color: rgba(0, 0, 0, 0.5); /* Add a semi-transparent background */
+
+}
+
+.hover-overlay button
+{
+  transition: all 0.5s;
+}
+
+.hover-overlay button:first-of-type {
+  transform: translateX(-20px);
+}
+
+.hover-overlay button:last-of-type {
+  transform: translateX(20px);
+}
+
+

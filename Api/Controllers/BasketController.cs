@@ -19,7 +19,7 @@ namespace Api.Controllers
 			_basketRepository = basketRepository;
 		}
 
-		[HttpGet("{id}")]
+		[HttpGet]
 		public async Task<ActionResult<Response<CustomerBasket>>> GetBasketAsync(string id)
 		{
 			var result = await _basketRepository.GetBasketAsync(id);
@@ -48,7 +48,7 @@ namespace Api.Controllers
 		/// </summary>
 		/// <param name="id">It requires basket id.</param>
 		/// <returns>It returns a bool for success/failure response.</returns>
-		[HttpDelete("{id}")]
+		[HttpDelete]
 		public async Task<ActionResult<Response<Boolean>>> DeleteBasketAsync(string id)
 		{
 			var result = await _basketRepository.DeleteBasketAsync(id);
