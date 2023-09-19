@@ -10,7 +10,12 @@
       <i class="fa fa-shopping-cart fa-2x me-5" style="color:black"></i>
       <div *ngIf="(basket$ | async) as basket" class="cart-no">{{basket.basketItems.length}}</div>
     </a>
-    <a class="btn btn-outline-primary me-2">Sign Up</a>
-    <a class="btn btn-outline-success me-3">Login</a>
+    <div *ngIf="(user$ | async) !== null">
+      <span class="me-3">Welcome {{(user$ | async).name}}!</span>
+    </div>
+    <ng-container *ngIf="((user$ | async) === null)">
+      <a class="btn btn-outline-primary me-2">Sign Up</a>
+      <a class="btn btn-outline-success me-3" routerLink="account/login">Login</a>
+    </ng-container>
   </div>
 </div>

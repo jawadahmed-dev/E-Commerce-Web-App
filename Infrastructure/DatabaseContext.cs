@@ -1,4 +1,6 @@
 ﻿using Core.Entites;
+using Core.Entites.OrderAggregate;
+using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure
 {
-	public class DatabaseContext : IdentityDbContext
+	public class DatabaseContext : IdentityDbContext<ApplicationUser>
 	{
 		public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
 		{
@@ -19,6 +21,9 @@ namespace Infrastructure
 		public DbSet<Product> Products { get; set; }
 		public DbSet<ProductType> ProductTypes { get; set; }
 		public DbSet<ProductBrand> ProductBrands { get; set; }
+		public DbSet<Order> Order { get; set; }
+		public DbSet<OrderItem> OrderItem { get; set; }
+		public DbSet<DeliveryMethod> DeliveryMethod { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{

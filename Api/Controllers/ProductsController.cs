@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Models.Product;
+using Api.Filters;
 
 namespace Api.Controllers
 {
@@ -48,6 +49,7 @@ namespace Api.Controllers
 
 		/// <summary>Get list of products in paginated form.</summary>
 
+		[Cached(500)]
 		[HttpGet]
 		public async Task<ActionResult<Response<Pagination<ProductResponseModel>>>> GetProductsAsync([FromQuery] GetProductsModel getProductsModel)
 		{

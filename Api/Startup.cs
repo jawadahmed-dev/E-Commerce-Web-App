@@ -20,6 +20,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Api
 {
@@ -35,6 +38,20 @@ namespace Api
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+			.AddJwtBearer(o => 
+			{
+				o.TokenValidationParameters = new TokenValidationParameters
+				{
+					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
+					ValidateIssuerSigningKey = true,
+					ValidIssuer = Configuration["Jwt:Issuer"],
+					ValidateIssuer = true,
+					ValidAudience = Configuration["Jwt:Audience"],
+					ValidateAudience = true,
+					ValidateLifetime = true
+				};
+			});
 			services.AddCors(options =>
 			{
 				options.AddPolicy("AllowAnyOrigin",
@@ -58,16 +75,18 @@ namespace Api
 
 			app.UseMiddleware<ExceptionMiddleware>();
 
+			app.UseStatusCodePagesWithReExecute("/errors/{0}");
+
 			if (env.IsDevelopment())
 			{
 				app.AddSwaggerUI();
 			}
 
-			app.UseStatusCodePagesWithReExecute("/errors/{0}");
 			app.UseHttpsRedirection();
 
 			app.UseRouting();
 			app.UseStaticFiles();
+			app.UseAuthentication();
 			app.UseAuthorization();
 
 			app.UseEndpoints(endpoints =>
