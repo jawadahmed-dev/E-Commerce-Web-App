@@ -1,0 +1,15 @@
+[
+  {
+    "DisplayName": "bob",
+    "UserName": "bob@test.com",
+    "Email": "bob@test.com",
+    "Address": {
+      "FirstName": "bob",
+      "LastName": "bobity",
+      "Street": "10th Street",
+      "City": "New York",
+      "State": "NY",
+      "ZipCode":  "90210"
+    }
+  }
+]

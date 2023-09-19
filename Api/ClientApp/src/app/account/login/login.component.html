@@ -1,0 +1,18 @@
+<div class="container my-5">
+  <div class="d-flex justify-content-center">
+    <form style="width:40%" [formGroup]="loginForm" (ngSubmit)="submitForm()">
+      <h1 class="h3 mb-4 fw-normal">Please sign in</h1>
+      <div class="my-3">
+        <label for="floatingInput" class="form-label">Email address</label>
+        <input type="email" formControlName="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+      </div>
+      <div class="mb-3">
+        <label for="floatingPassword" class="form-label">Password</label>
+        <input type="password" formControlName="password" class="form-control" id="floatingPassword" placeholder="Password">
+      </div>
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+
+    </form>
+  </div>
+</div>
+
