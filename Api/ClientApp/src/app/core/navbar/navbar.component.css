@@ -27,3 +27,7 @@ a
 {
   color:black;
 }
+
+.dropdown-toggle::after {
+  margin-left: 0.5em;
+}

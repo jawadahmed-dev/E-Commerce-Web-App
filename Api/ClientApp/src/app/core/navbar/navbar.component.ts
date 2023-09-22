@@ -27,4 +27,9 @@ export class NavbarComponent implements OnInit {
         console.log("data received : " + data);
       })
   }
+
+  logout()
+  {
+    this.accountService.logout();
+  }
 }

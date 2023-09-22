@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgbModule,NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { PagerComponent } from './components/pager/pager.component';
 import { OrderTotalsComponent } from './components/order-totals/order-totals.component';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
 
@@ -13,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     OrderTotalsComponent
   ],
   imports: [
+    RouterModule,
     CommonModule,
     NgbModule,
     NgbCarouselModule,
@@ -21,6 +22,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   ],
   exports: [
     NgbModule,
+    RouterModule,
     PagerComponent,
     NgbCarouselModule,
     OrderTotalsComponent,
