@@ -1,0 +1,39 @@
+<div class="mt-5" [formGroup]="checkoutForm">
+  <div class="d-flex justify-content-between align-items-center my-3">
+    <h4>Shipping Address</h4>
+    <button class="btn btn-outline-success">
+      Save as default address
+    </button>
+  </div>
+  <form class="row g-3" formGroupName="addressForm">
+    <div class="col-6">
+      <input type="text" class="form-control" formControlName="firstName" id="firstName" placeholder="First Name">
+    </div>
+    <div class="col-6">
+      <input type="text" class="form-control" formControlName="lastName" id="lastName" placeholder="Last Name">
+    </div>
+    <div class="col-6">
+      <input type="text" class="form-control" formControlName="street" id="street" placeholder="Street">
+    </div>
+    <div class="col-6">
+      <input type="text" class="form-control" formControlName="city" id="city" placeholder="City">
+    </div>
+    <div class="col-6">
+      <input type="text" class="form-control" formControlName="state" id="state" placeholder="State">
+    </div>
+    <div class="col-6">
+      <input type="text" class="form-control" formControlName="zipCode" id="zipCode" placeholder="Zip Code">
+    </div>
+  </form>
+</div>
+
+<div class="d-flex justify-content-between mt-4">
+  <button class="btn btn-outline-primary" routerLink="/basket">
+    <i class="fa fa-angle-left mx-1"></i>
+    Back to basket
+  </button>
+  <button class="btn btn-primary" cdkStepperNext>
+    Go to delivery
+    <i class="fa fa-angle-right mx-1"></i>
+  </button>
+</div>

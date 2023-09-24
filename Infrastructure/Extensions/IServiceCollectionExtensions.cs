@@ -1,13 +1,17 @@
 ﻿using Core.Entites;
+using Core.Entites.OrderAggregate;
+using Core.Interfaces;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Infrastructure.Identity;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -42,11 +46,34 @@ namespace Infrastructure.Extensions
 			})
 			.AddEntityFrameworkStores<DatabaseContext>();
 
+			services
+			.AddAuthentication(o =>
+			{
+				o.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+				o.DefaultAuthenticateScheme  = JwtBearerDefaults.AuthenticationScheme;
+				o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			})
+			.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, o =>
+			{
+				o.TokenValidationParameters = new TokenValidationParameters
+				{
+					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"])),
+					ValidateIssuerSigningKey = true,
+					ValidIssuer = configuration["Jwt:Issuer"],
+					ValidateIssuer = true,
+					ValidAudience = configuration["Jwt:Audience"],
+					ValidateAudience = true,
+					ValidateLifetime = true
+				};
+
+			});
+
 			services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
 			services.AddScoped<IBasketRepository,BasketRepository>();
 			services.AddScoped<ITokenService,TokenService>();
 			services.AddScoped<IOrderService,OrderService>();
 			services.AddScoped<IResponseCacheService,ResponseCacheService>();
+			services.AddScoped<IUnitOfWork,UnitOfWork>();
 
 			var scope = services.BuildServiceProvider().CreateScope();
 
@@ -105,6 +132,19 @@ namespace Infrastructure.Extensions
 				foreach (var product in productList)
 				{
 					context.Products.Add(product);
+				}
+
+				context.SaveChanges();
+			}
+
+			var deliveryMethodSeeds = File.ReadAllText("../Infrastructure/Seeds/delivery.json");
+			var deliveryMethodList = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryMethodSeeds);
+
+			if (!context.DeliveryMethod.Any())
+			{
+				foreach (var deliveryMethod in deliveryMethodList)
+				{
+					context.DeliveryMethod.Add(deliveryMethod);
 				}
 
 				context.SaveChanges();

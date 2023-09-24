@@ -11,6 +11,7 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TokenInterceptor } from './core/interceptors/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass : ErrorInterceptor, multi : true},
     {provide: HTTP_INTERCEPTORS, useClass : LoadingInterceptor, multi : true},
+    {provide: HTTP_INTERCEPTORS, useClass : TokenInterceptor, multi : true},
   ],
   bootstrap: [AppComponent]
 })

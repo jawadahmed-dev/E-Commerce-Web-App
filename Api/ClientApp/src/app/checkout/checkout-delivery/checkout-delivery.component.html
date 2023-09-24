@@ -1,0 +1,24 @@
+<div [formGroup]="checkoutForm" class="mt-5">
+  <form class="row" formGroupName="deliveryForm">
+    <div class="col-6" *ngFor="let deliveryMethod of deliveryMethods">
+      <div class="form-check mb-5">
+        <input type="radio" class="form-check-input" formControlName="deliveryMethod" [id]="deliveryMethod.id" [value]="deliveryMethod.id" >
+        <Label [for]="deliveryMethod.id" class="form-check-label">
+          <strong class="d-block">{{deliveryMethod.shortName}} - {{deliveryMethod.price | currency}}</strong>
+          <span class="label-description">{{deliveryMethod.description}}</span>
+        </Label>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="d-flex justify-content-between mt-4">
+  <button class="btn btn-outline-primary" cdkStepperPrevious>
+    <i class="fa fa-angle-left mx-1"></i>
+    Back to address
+  </button>
+  <button class="btn btn-primary" cdkStepperNext>
+    Go to review
+    <i class="fa fa-angle-right mx-1"></i>
+  </button>
+</div>

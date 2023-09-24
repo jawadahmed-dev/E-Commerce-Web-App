@@ -5,12 +5,16 @@ import { PagerComponent } from './components/pager/pager.component';
 import { OrderTotalsComponent } from './components/order-totals/order-totals.component';
 import { Router, RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import {CdkStepperModule} from '@angular/cdk/stepper';
+import { StepperComponent } from './components/stepper/stepper.component';
+import { BasketSummaryComponent } from './components/basket-summary/basket-summary.component'
 
 @NgModule({
   declarations: [
     PagerComponent,
-    OrderTotalsComponent
+    OrderTotalsComponent,
+    StepperComponent,
+    BasketSummaryComponent
   ],
   imports: [
     RouterModule,
@@ -18,7 +22,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     NgbModule,
     NgbCarouselModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CdkStepperModule
   ],
   exports: [
     NgbModule,
@@ -26,7 +31,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     PagerComponent,
     NgbCarouselModule,
     OrderTotalsComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CdkStepperModule,
+    StepperComponent,
+    BasketSummaryComponent
   ]
 })
 export class SharedModule { }

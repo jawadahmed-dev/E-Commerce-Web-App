@@ -31,7 +31,7 @@
 
     </div>
 <ng-container *ngIf="((user$ | async) === null)">
-      <a class="btn btn-outline-primary me-2">Sign Up</a>
+      <a class="btn btn-outline-primary me-2" (click)="logout()">Sign Up</a>
       <a class="btn btn-outline-success me-3" routerLink="account/login">Login</a>
     </ng-container>
   </div>

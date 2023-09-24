@@ -3,12 +3,14 @@ using Api.Models;
 using Core.Interfaces.Services;
 using Core.Models.User;
 using Infrastructure.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Api.Controllers
@@ -30,7 +32,7 @@ namespace Api.Controllers
 		[HttpGet("load-user")]
 		public async Task<ActionResult<Response<UserResponseModel>>> LoadUserAsync() 
 		{
-			var email = User.Claims.FirstOrDefault(e => e.Type == "email")?.Value;
+			var email = User.Claims.FirstOrDefault(e => e.Type == ClaimTypes.Email)?.Value;
 
 			if (string.IsNullOrEmpty(email)) throw new BadRequestException("User doesn't contain email claim.");
 

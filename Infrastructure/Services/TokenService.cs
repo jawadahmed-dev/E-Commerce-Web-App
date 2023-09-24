@@ -29,7 +29,7 @@ namespace Infrastructure.Services
 
 			var claims = new List<Claim> 
 			{
-				new Claim("email", user.Email),
+				new Claim(ClaimTypes.Email, user.Email),
 			};
 
 			var signingCreds = new SigningCredentials(_securityKey, SecurityAlgorithms.HmacSha256Signature);

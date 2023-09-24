@@ -14,7 +14,7 @@ namespace Infrastructure.Configurations
 		public void Configure(EntityTypeBuilder<Order> builder)
 		{
 			builder.OwnsOne(o => o.ShipToAddress, a => a.WithOwner());
-			builder.Property(o => o.orderStatus).HasConversion(os => os.ToString(), os => (OrderStatus)Enum.Parse(typeof(OrderStatus), os));
+			builder.Property(o => o.OrderStatus).HasConversion(os => os.ToString(), os => (OrderStatus)Enum.Parse(typeof(OrderStatus), os));
 			builder.HasMany(o => o.OrderedItems).WithOne().OnDelete(DeleteBehavior.Cascade);
 		
 		}

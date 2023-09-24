@@ -3,6 +3,7 @@ import { BasketService } from './basket/basket.service';
 import { IBasket } from './shared/models/basket';
 import { IResponse } from './shared/models/response';
 import { AccountService } from './account/account.service';
+import { basePlacements } from '@popperjs/core';
 
 @Component({
   selector: 'app-root',
@@ -23,8 +24,9 @@ export class AppComponent implements OnInit{
   loadBasket()
   {
     var basketId = localStorage.getItem('basket_id');
+    if(!basketId) return;
 
-    return this.basketService.getBasket(basketId).subscribe(() =>
+    this.basketService.getBasket(basketId).subscribe(() =>
     {
       console.log('Basket Initialized');
     },
@@ -37,16 +39,14 @@ export class AppComponent implements OnInit{
   loadUser()
   {
     let token = localStorage.getItem('token');
-    if(token)
+    this.accountService.loadUser(token).subscribe(()=>
     {
-      this.accountService.loadUser(token).subscribe(()=>
-      {
-        console.log('current user loaded.');
-      },
-      error =>
-      {
-        console.log(error);
-      });
-    }
+      console.log('current user loaded.');
+    },
+    error =>
+    {
+      console.log(error);
+    });
+
   }
 }

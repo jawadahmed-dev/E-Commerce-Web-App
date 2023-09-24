@@ -4,24 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Entites.OrderAggregate
+namespace Core.Models.OrderAggregate
 {
-	public class Address
+	public class ShipToAddressResponseModel
 	{
-		public Address()
-		{
-		}
-
-		public Address(string firstName, string lastName, string street, string city, string state, string zipCode)
-		{
-			FirstName = firstName;
-			LastName = lastName;
-			Street = street;
-			City = city;
-			State = state;
-			ZipCode = zipCode;
-		}
-
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
 		public string Street { get; set; }
